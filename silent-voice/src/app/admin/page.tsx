@@ -1,16 +1,18 @@
 "use client"
-import Navbar from "@/components/Navbar";
 import Head from "next/head";
 import { Poppins } from "next/font/google";
 
 import { userUserLoaded, useUser } from "@/hooks/user";
 import Link from "next/link";
+import Spinner from "@/components/Spinner";
 
 const poppins = Poppins({ weight: ["400", "600", "800"], subsets: ["latin"] });
 
 const AdminPage = () => {
   const [user, setUser] = useUser();
   const [userLoaded, setUserLoaded] = userUserLoaded();
+
+  if (!userLoaded) return <Spinner />;
 
   return (
     <>
@@ -19,7 +21,6 @@ const AdminPage = () => {
       </Head>
 
       <div className={`${poppins.className} min-h-screen bg-box`}>
-        <Navbar />
         {user?.role !== "admin" ? (
           <div className="bg-red-500 text-white text-center py-2">
             You are not authorized to access this page
